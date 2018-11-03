@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/Shooting Bubble Starter Kit/Scenes/MainPlayScene.unity
+  isLoaded: 1
+  isActive: 1
