@@ -8,8 +8,7 @@ public class LevelData
 	public char[,] data;
 }	
 
-public class Levels : Singleton<Levels>
-{
+public class Levels : Singleton<Levels>{
 	public TextAsset data;
 	
 	public int current { get; set; }

@@ -23,18 +23,6 @@ public class Box : MonoBehaviour {
 		get;
 		set;
 	}
-	
-	public static Type CharToType(char ch)
-	{
-		if (ch >= '0' && ch <= '7')
-		{
-			return (Type)(ch - '0' + 1);
-		}
-		else
-		{
-			return Type.None;
-		}
-	}
 
     private static int maxNormalColorType = 8;
     public static int maxAmountOfHits = 12;
@@ -52,47 +40,41 @@ public class Box : MonoBehaviour {
        return Random.Range(1, maxAmountOfHits);
     }
 
-    public static Type GetRandomColorOtherThan(Type exclude)
-    {
-        Type t = exclude;
-
-        while (t == exclude)
-            t = GetRandomColor();
-
-        return t;
-    }
-    
     private static Type _lastOne = Type.None;
     private static Type _lastTwo = Type.None;
-    
-    public static Type GetRandomColorFromList(List<Type> all)
-    {
-    	if (all.Count > 0)
-    	{
-    		if (all.Count == 1)
-    			return all[0];
-    		
-    		while (true)
-    		{
-		    	int index = Random.Range(0, all.Count);
-		    	if (all[index] == _lastTwo && all[index] == _lastOne)
-		    	{
-		    		continue;
-		    	}
 
-				_lastTwo = _lastOne;
-		    	_lastOne = all[index];
-		    	
-		    	return all[index];
-    		}
-    	}
-    	
-    	D.warn("[Bubble] Get none type...");
-    	return Type.None;
+    public static Box.Type GetColorByHits(int hits) {
+        switch (hits) {
+            case 1:
+                return Box.Type.Color1;
+            case 2:
+                return Box.Type.Color2;
+            case 3:
+                return Box.Type.Color3;     
+            case 4:
+                return Box.Type.Color4;
+            case 5:
+                return Box.Type.Color5;
+            case 6:
+                return Box.Type.Color6;
+            case 7:
+                return Box.Type.Color7;
+            case 8:
+                return Box.Type.Color8;
+        }
+
+        return Box.Type.Color1;
     }
 
     void OnCollisionEnter2D(Collision2D collision) {
-        Debug.Log(">>>>>>>>>>>>>");
-        Destroy(gameObject);
+        //Debug.Log(">>> amountOfHitsTaken > " + this.amountOfHits);
+        //Debug.Log(">>> amountOfHitsTaken > " + this.amountOfHitsTaken);
+        this.amountOfHitsTaken++;
+        if (this.amountOfHitsTaken >= this.amountOfHits) {
+            Destroy(gameObject);
+        } else {
+            int hitsLeft = this.amountOfHits - this.amountOfHitsTaken;
+            gameObject.transform.GetChild(0).transform.GetChild(0).gameObject.GetComponent<UnityEngine.UI.Text>().text = "" + hitsLeft;
+        }
     }
 }
